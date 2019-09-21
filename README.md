@@ -3,10 +3,9 @@
 </p>
 
 # Projeto Lobo-Guará - API Gateway
+### Sistema de monitoramento de queimadas feito por alunos da Universidade de Brasília.
 
 Este repositório é o responsável pelo microsserviço da nossa API Gateway
-
-### Aplicativo de monitoramento de queimadas feito por alunos da Universidade de Brasília.
 
 ## Requisitos
 Para executar o sistema é necessário possuir o **docker** e o **docker-compose** instalados em seu ambiente. Você pode verificar como instalar estas ferramentas nos links a seguir:
@@ -34,4 +33,4 @@ $ docker-compose -f docker-compose.yml up
 
 Com o processo tendo funcionado perfeitamente, será possível acessar a interface da API em:
 
-* https:\\localhost:8000
+* https:\\\\localhost:8000
