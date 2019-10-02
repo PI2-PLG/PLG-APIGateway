@@ -34,3 +34,16 @@ $ docker-compose -f docker-compose.yml up
 Com o processo tendo funcionado perfeitamente, será possível acessar a interface da API em:
 
 * https:\\\\localhost:8000
+
+## Mock:
+
+O sistema possui um script que adiciona dados em mock para o test no frontend. Para adicionar o mock ao seu banco de dados execute:
+
+```
+$ docker-compose -f docker-compose.yml exec -T web python manage.py shell < ./scripts/initialize_mocked_data.py
+
+```
+
+Caso tudo ocorra perfeitamente você poderá receber os dados por meio da url:
+
+* http://localhost:8000/mocked-data/?format=json
