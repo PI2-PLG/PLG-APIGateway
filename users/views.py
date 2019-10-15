@@ -7,7 +7,7 @@ from users.serializers import CustomUserSerializer
 import io
 
 
-class NewUserView(APIView):
+class NewUser(APIView):
 
     def post(self, request):
         try:
@@ -30,7 +30,7 @@ class NewUserView(APIView):
             return Response(response, status=status.HTTP_200_OK)
 
 
-class AddNotificatioTokenView(APIView):
+class AddNotificatioToken(APIView):
 
     def post(self, request):
         try:
@@ -52,7 +52,7 @@ class AddNotificatioTokenView(APIView):
             return Response(response, status=status.HTTP_200_OK)
 
 
-class UpdateUserView(APIView):
+class GetUserData(APIView):
 
     def post(self, request):
         try:
