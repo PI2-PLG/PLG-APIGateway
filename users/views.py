@@ -5,12 +5,12 @@ from rest_framework.response import Response
 from users.models import CustomUser
 import io
 
-@api_view(['GET', 'POST'])
+@api_view(['POST'])
 def new_user(request):
-    print(request.data['name'])
-    print(request.data['email'])
-    print(request.data['username'])
-    print(request.data['password'])
+    # print(request.data['name'])
+    # print(request.data['email'])
+    # print(request.data['username'])
+    # print(request.data['password'])
     try:
         if request.method == 'POST':
             name = request.data['name']
@@ -29,5 +29,27 @@ def new_user(request):
             return Response(response, status=status.HTTP_201_CREATED)
     except:
         response = "{response: user_unseccessfully_created}"
-        return Response(response, status=status.HTTP_201_CREATED)
+        return Response(response, status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+def add_notification_token(request):
+    print(request.data['username'])
+    print(request.data['notification_token'])
+
+    try:
+        username = request.data['username']
+        user = CustomUser.objects.get(username=username)
+    except:
+        response = "{response: user_not_found}"
+        return Response(response, status=status.HTTP_200_OK)
+
+    try:
+        username = request.data['username']
+        notification_token = request.data['notification_token']
+        user.notification_token = notification_token
+        user.save()
+        response = "{response: token_successfully_added}"
+        return Response(response, status=status.HTTP_200_OK)
+    except:
+        response = "{response: user_unseccessfully_added}"
+        return Response(response, status=status.HTTP_200_OK)

@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('mock.urls')),
     path('new-user/', views.new_user),
+    path('add-token/', views.add_notification_token),
 ]
