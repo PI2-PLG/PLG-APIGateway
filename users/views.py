@@ -8,10 +8,6 @@ import io
 
 @api_view(['POST'])
 def new_user(request):
-    # print(request.data['name'])
-    # print(request.data['email'])
-    # print(request.data['username'])
-    # print(request.data['password'])
     try:
         name = request.data['name']
         email = request.data['email']
@@ -33,9 +29,6 @@ def new_user(request):
 
 @api_view(['POST'])
 def add_notification_token(request):
-    # print(request.data['username'])
-    # print(request.data['notification_token'])
-
     try:
         username = request.data['username']
         user = CustomUser.objects.get(username=username)
@@ -56,14 +49,12 @@ def add_notification_token(request):
 
 @api_view(['POST'])
 def get_user_data(request):
-    # try:
-    username = request.data['username']
-    user = CustomUser.objects.get(username=username)
-    response = CustomUserSerializer(user)
-    print(response.data)
-    return Response(response.data, status=status.HTTP_200_OK)
-
-    #     return Response(response, status=status.HTTP_200_OK)
-    # except:
-    #     response = "{response: user_not_found}"
-    #     return Response(response, status=status.HTTP_200_OK)
+    try:
+        username = request.data['username']
+        user = CustomUser.objects.get(username=username)
+        response = CustomUserSerializer(user)
+        print(response.data)
+        return Response(response.data, status=status.HTTP_200_OK)
+    except:
+        response = "{response: user_not_found}"
+        return Response(response, status=status.HTTP_200_OK)
