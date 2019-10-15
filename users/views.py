@@ -64,7 +64,6 @@ class AddNotificatioToken(APIView):
     # permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        print("OLAAAAAAAAAAAAAAAA")
         try:
             username = request.data['username']
             print(username)
