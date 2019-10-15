@@ -17,8 +17,10 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.urls import path
 from django.contrib import admin
+from users import views
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     url(r'^', include('mock.urls')),
-    url(r'^admin/', admin.site.urls),
+    path('new-user/', views.new_user),
 ]
