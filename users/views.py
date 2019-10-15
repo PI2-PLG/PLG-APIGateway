@@ -4,6 +4,9 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
+from django.contrib.auth import authenticate, login, logout
 import io
 
 
@@ -30,11 +33,41 @@ class NewUser(APIView):
             return Response(response, status=status.HTTP_200_OK)
 
 
-class AddNotificatioToken(APIView):
+class UserLogin(APIView):
 
     def post(self, request):
         try:
+            username = request.data["username"]
+            password = request.data["password"]
+
+            user = authenticate(username=username, password=password)
+
+            if user is not None:
+                if user.is_active:
+                    login(request,user)
+                    response = CustomUserSerializer(user)
+                    return Response(response.data, status=status.HTTP_200_OK)
+                else:
+                    response = "{response:accont_disabled}"
+                    return Response(response, status=status.HTTP_200_OK)
+            else:
+                    response = "{response:invalid_login}"
+                    return Response(response, status=status.HTTP_200_OK)
+
+        except:
+            response = "{response:invalid_login}"
+            return Response(response, status=status.HTTP_200_OK)
+
+class AddNotificatioToken(APIView):
+
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        print("OLAAAAAAAAAAAAAAAA")
+        try:
             username = request.data['username']
+            print(username)
             user = CustomUser.objects.get(username=username)
         except:
             response = "{response: user_not_found}"
@@ -48,11 +81,14 @@ class AddNotificatioToken(APIView):
             response = "{response: token_successfully_added}"
             return Response(response, status=status.HTTP_200_OK)
         except:
-            response = "{response: user_unseccessfully_added}"
+            response = "{response: token_unseccessfully_added}"
             return Response(response, status=status.HTTP_200_OK)
 
 
 class GetUserData(APIView):
+
+    # authentication_classes = [SessionAuthentication]
+    # permission_classes = (IsAuthenticated,)
 
     def post(self, request):
         try:
