@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^', include('mock.urls')),
     path('new-user/', views.new_user),
     path('add-token/', views.add_notification_token),
+    path('get-user/', views.get_user_data),
 ]
