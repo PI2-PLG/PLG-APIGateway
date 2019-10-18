@@ -17,13 +17,12 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.urls import path
 from django.contrib import admin
-from users.views import NewUser, UserLogin, AddNotificatioToken, GetUserData
+from users.views import NewUser, UserLogin, GetUserData
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^', include('mock.urls')),
     path('new-user/', NewUser.as_view()),
-    path('add-token/', AddNotificatioToken.as_view()),
     path('get-user/', GetUserData.as_view()),
     path('login/', UserLogin.as_view()),
 ]
