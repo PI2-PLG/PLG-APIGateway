@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from django.http import JsonResponse
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 from rest_framework.authentication import SessionAuthentication
@@ -28,11 +29,10 @@ class NewUser(APIView):
             new_user.set_password(password)
             new_user.notification_token = notification_token
             new_user.save()
-            response = "{response: user_successfully_created}"
-            return Response(response, status=status.HTTP_201_CREATED)
+            # response = "{response: user_successfully_created}"
+            return Response({'response': 'user_successfully_created'}, status=status.HTTP_201_CREATED)
         except:
-            response = "{response: user_unseccessfully_created}"
-            return Response(response, status=status.HTTP_200_OK)
+            return Response({'response': 'user_unseccessfully_created'}, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_200_OK)
 
 
@@ -40,8 +40,10 @@ class UserLogin(APIView):
 
     def post(self, request):
         try:
-            username = request.data["username"]
-            password = request.data["password"]
+
+            data = request.data['user']
+            username = data["username"]
+            password = data["password"]
 
             user = authenticate(username=username, password=password)
 
@@ -49,17 +51,15 @@ class UserLogin(APIView):
                 if user.is_active:
                     login(request,user)
                     response = CustomUserSerializer(user)
-                    return Response(response.data, status=status.HTTP_200_OK)
+                    print(response)
+                    return JsonResponse(response.data, status=status.HTTP_200_OK)
                 else:
-                    response = "{response:accont_disabled}"
-                    return Response(response, status=status.HTTP_200_OK)
+                    return Response({'response': 'accont_disabled'}, status=status.HTTP_200_OK)
             else:
-                    response = "{response:invalid_login}"
-                    return Response(response, status=status.HTTP_200_OK)
+                return Response({'response': 'invalid_login'}, status=status.HTTP_200_OK)
 
         except:
-            response = "{response:invalid_login}"
-            return Response(response, status=status.HTTP_200_OK)
+            return Response({'response': 'unable_to_process'}, status=status.HTTP_200_OK)
 
 
 class GetUserData(APIView):
