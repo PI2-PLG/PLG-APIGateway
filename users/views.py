@@ -51,8 +51,20 @@ class UserLogin(APIView):
                 if user.is_active:
                     login(request,user)
                     response = CustomUserSerializer(user)
-                    print(response)
-                    return JsonResponse(response.data, status=status.HTTP_200_OK)
+                    username = response.data['username']
+                    email = response.data['email']
+                    name = response.data['name']
+                    notification_token = response.data['notification_token']
+
+                    return Response(
+                        {
+                            'username': username,
+                            'email': email,
+                            'name': name,
+                            'notification_token': notification_token,
+                            'response': 'successfully_login'
+                        },
+                        status=status.HTTP_200_OK)
                 else:
                     return Response({'response': 'accont_disabled'}, status=status.HTTP_200_OK)
             else:
