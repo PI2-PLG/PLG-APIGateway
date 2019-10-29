@@ -47,3 +47,11 @@ $ docker-compose -f docker-compose.yml exec -T web python manage.py shell < ./sc
 Caso tudo ocorra perfeitamente você poderá receber os dados por meio da url:
 
 * http://localhost:8000/mocked-data/?format=json
+
+## Seeds de Endpoints Externos
+
+'''
+
+sudo docker-compose exec -T web python manage.py shell < ./scripts/endpoints-seeds.py
+
+'''
