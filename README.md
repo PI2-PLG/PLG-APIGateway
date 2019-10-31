@@ -73,3 +73,11 @@ curl -X GET http://localhost:8003/all-data/
 curl -X GET http://localhost:8003/all-data/
 
 ```
+
+* Requisição de todo o conjunto de dados de um determinado módulo:
+
+```
+
+curl -d '{"module":{"name":"Modulo-FGA-A"}}' -H "Content-Type: application/json" -X GET http://localhost:8000/get-module/
+
+```
