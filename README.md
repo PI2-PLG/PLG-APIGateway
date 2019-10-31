@@ -62,7 +62,7 @@ sudo docker-compose exec -T web python manage.py shell < ./scripts/endpoints-see
 
 ```
 
-curl -X GET http://localhost:8003/all-data/
+curl -X GET http://localhost:8000/modules-list/
 
 ```
 
@@ -70,7 +70,7 @@ curl -X GET http://localhost:8003/all-data/
 
 ```
 
-curl -X GET http://localhost:8003/all-data/
+curl -X GET http://localhost:8000/all-modules-data/
 
 ```
 
