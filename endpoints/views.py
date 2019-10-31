@@ -14,11 +14,39 @@ class GetModuleList(APIView):
     def get(self,request):
         try:
             endpoint = Endpoint.objects.get(name="GetAllModuleList")
-            print(endpoint.url)
         except:
             return Response({'response': 'endpoint_not_found'}, status=status.HTTP_200_OK)
         try:
             response = req.get(endpoint.url)
+            return Response(response.json(), status=status.HTTP_200_OK)
+        except:
+            return Response({'response': 'no_reply'}, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK)
+
+class GetAllData(APIView):
+
+    def get(self, request):
+        try:
+            endpoint = Endpoint.objects.get(name="GetAllData")
+        except:
+            return Response({'response':'endpoint_not_foud'}, status=status.HTTP_200_OK)
+        try:
+            response = req.get(endpoint.url)
+            return Response(response.json(), status=status.HTTP_200_OK)
+        except:
+            return Response({'response': 'no_reply'}, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_200_OK)
+
+class GetModule(APIView):
+
+    def get(self, request):
+        try:
+            endpoint = Endpoint.objects.get(name="GetAllModuleData")
+        except:
+            return Response({'response':'endpoint_not_found'}, status=status.HTTP_200_OK)
+        try:
+            data = {'module':{'name':request.data["module"]["name"]}}
+            response = req.get(url=endpoint.url, json=data)
             return Response(response.json(), status=status.HTTP_200_OK)
         except:
             return Response({'response': 'no_reply'}, status=status.HTTP_200_OK)
