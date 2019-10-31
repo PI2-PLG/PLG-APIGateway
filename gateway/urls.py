@@ -18,7 +18,7 @@ from django.conf.urls import url,include
 from django.urls import path
 from django.contrib import admin
 from users.views import NewUser, UserLogin, GetUserData
-from endpoints.views import GetModuleList, GetAllData
+from endpoints.views import GetModuleList, GetAllData, GetModule
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('login/', UserLogin.as_view()),
     path('modules-list/', GetModuleList.as_view()),
     path('all-modules-data/', GetAllData.as_view()),
+    path('get-module/', GetModule.as_view()),
 ]
