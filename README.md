@@ -50,8 +50,26 @@ Caso tudo ocorra perfeitamente você poderá receber os dados por meio da url:
 
 ## Seeds de Endpoints Externos
 
-'''
+```
 
 sudo docker-compose exec -T web python manage.py shell < ./scripts/endpoints-seeds.py
 
-'''
+```
+
+## Exemplos de Requisição
+
+* Requisição da lista de módulos e suas posições:
+
+```
+
+curl -X GET http://localhost:8003/all-data/
+
+```
+
+* Requisição de todo o conjunto de módulos e seus respectivos dados:
+
+```
+
+curl -X GET http://localhost:8003/all-data/
+
+```
