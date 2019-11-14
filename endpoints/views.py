@@ -63,7 +63,6 @@ class PostModuleData(APIView):
         '''
 
         data = request.data["payload"]
-        print(data)
         module_data = convertCentralData(data)
         module = {"name":module_data["module"]}
         final_response = ""
@@ -87,7 +86,6 @@ class PostModuleData(APIView):
                       }
             module_data_request["module"] = module
             module_data_request["module_data"] = newData
-            # print(module_data_request)
         except:
             final_response = {'response':'find_or_create_module_data_error'}
             return Response(final_response, status=status.HTTP_200_OK)
