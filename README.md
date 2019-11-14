@@ -58,6 +58,15 @@ sudo docker-compose exec -T web python manage.py shell < ./scripts/endpoints-see
 
 ## Exemplos de Requisição
 
+* Criação de um pacote de dados de um módulo a partir de uma string:
+
+```
+
+curl -d '{"payload":"M:Modulo-Z,P:223,T:23.24,U:24.34,L:234.2223,G:234.2223,V:23.23"}' -H "Content-Type: application/json" -X POST http://localhost:8000/new-module-data/
+
+
+```
+
 * Requisição da lista de módulos e suas posições:
 
 ```

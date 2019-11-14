@@ -1,3 +1,5 @@
+from endpoints.models import Endpoint
+import requests as req
 import json
 import io
 

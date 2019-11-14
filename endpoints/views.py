@@ -56,29 +56,56 @@ class GetModule(APIView):
 class PostModuleData(APIView):
 
     def post(self, request):
+
         '''
-            M: => Modulo
-            P: => Partículas por Milhão
-            T: => Temperatura
-            U: => Umidade
-            L: => Latitude
-            G: => Longitude
-            V: => Velocidade
+        Exemplo de string de dados
+        data = "M:Modulo-Z,P:223,T:23.24,U:24.34,L:234.2223,G:234.2223,V:23.23"
         '''
 
-        # fazer a requisição receber de request
-
-        data = "M:Modulo-A,P:223,T:23.24,U:24.34,L:2234.2322,G:234,2223,V:23.23"
+        data = request.data["payload"]
+        print(data)
         module_data = convertCentralData(data)
-        print(module_data)
+        module = {"name":module_data["module"]}
+        final_response = ""
+        try:
+            newModule = Endpoint.objects.get(name="NewModule")
+            aux = {"module":module}
+            response = req.post(newModule.url, json=aux)
+        except:
+            final_response = {'response':'find_or_create_module_error'}
+            return Response(final_response, status=status.HTTP_200_OK)
 
-        # verificar se o modulo existe
-        module = {"module":module_data["module"]}
-        print(module)
-        # se o modulo existir, enviar os dados do módulo
-        # se o modulo não existir, criar um novo módulo
-        # com o módulo criado, enviar dados
+        try:
+            module_data_request = {}
+            newData = {
+                        "latitude":module_data["latitude"],
+                        "longitude":module_data["longitude"],
+                        "temperature":module_data["temperature"],
+                        "humidity":module_data["humidity"],
+                        "ppm":module_data["ppm"],
+                        "velocity":module_data["velocity"],
+                      }
+            module_data_request["module"] = module
+            module_data_request["module_data"] = newData
+            # print(module_data_request)
+        except:
+            final_response = {'response':'find_or_create_module_data_error'}
+            return Response(final_response, status=status.HTTP_200_OK)
 
+        try:
+            endpoint = Endpoint.objects.get(name="GetAllModuleData")
+        except:
+            final_response = {'response':'endpoint_not_found'}
+            return Response(final_response, status=status.HTTP_200_OK)
 
-
-        return Response(status=status.HTTP_200_OK)
+        try:
+            newModule = Endpoint.objects.get(name="NewModuleData")
+            response = req.post(newModule.url, json=module_data_request)
+            if(response.text == '{"response":"module-data_successfully_created"}'):
+                final_response = {'response':'new_data_saved'}
+            else:
+                final_response = {'response':'new_data_is_not_saved'}
+            return Response(final_response, status=status.HTTP_200_OK)
+        except:
+            final_response = {'response':'new_data_is_not_saved'}
+            return Response(final_response, status=status.HTTP_200_OK)
