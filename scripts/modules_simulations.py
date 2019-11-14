@@ -5,7 +5,7 @@ import json
 import io
 
 quantity_of_collects = 30
-interval = 5
+interval = 2
 localhost = "192.168.15.9"
 
 print(f'Simulando {quantity_of_collects} entradas de dados com intervalo de {interval} segundos entre elas')
