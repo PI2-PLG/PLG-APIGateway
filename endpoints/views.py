@@ -65,7 +65,14 @@ class PostModuleData(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request):
-
+        print("")
+        print("")
+        print("=============================================")
+        print("REQUEST:")
+        print(request.data)
+        print("=============================================")
+        print("")
+        print("")
         '''
         Exemplo de string de dados
         data = "M:Modulo-Z,P:223,T:23.24,U:24.34,L:234.2223,G:234.2223,V:23.23"
