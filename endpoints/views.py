@@ -5,12 +5,15 @@ from rest_framework.response import Response
 from django.http import JsonResponse
 from endpoints.models import Endpoint
 from endpoints.helper import convertCentralData
+from rest_framework.permissions import AllowAny
 import json
 import requests as req
 import io
 
 
 class GetModuleList(APIView):
+
+    permission_classes = (AllowAny,)
 
     def get(self,request):
         try:
@@ -26,6 +29,8 @@ class GetModuleList(APIView):
 
 class GetAllData(APIView):
 
+    permission_classes = (AllowAny,)
+
     def get(self, request):
         try:
             endpoint = Endpoint.objects.get(name="GetAllData")
@@ -39,6 +44,8 @@ class GetAllData(APIView):
         return Response(status=status.HTTP_200_OK)
 
 class GetModule(APIView):
+
+    permission_classes = (AllowAny,)
 
     def get(self, request):
         try:
@@ -54,6 +61,8 @@ class GetModule(APIView):
         return Response(status=status.HTTP_200_OK)
 
 class PostModuleData(APIView):
+
+    permission_classes = (AllowAny,)
 
     def post(self, request):
 
