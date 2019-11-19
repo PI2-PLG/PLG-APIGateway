@@ -90,3 +90,11 @@ curl -X GET http://localhost:8000/all-modules-data/
 curl -d '{"module":{"name":"Modulo-FGA-A"}}' -H "Content-Type: application/json" -X GET http://localhost:8000/get-module/
 
 ```
+
+* Requisição de dados para aparesentação nos mapas do frontend:
+
+```
+
+curl -X GET http://localhost:8000/modules-map/
+
+```
