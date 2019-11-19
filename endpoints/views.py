@@ -147,15 +147,6 @@ class PostModuleData(APIView):
             return Response(final_response, status=status.HTTP_200_OK)
 
         '''
-        Busca o serviço de todos os
-        '''
-        try:
-            endpoint = Endpoint.objects.get(name="GetAllModuleData")
-        except:
-            final_response = {'response':'endpoint_not_found'}
-            return Response(final_response, status=status.HTTP_200_OK)
-
-        '''
         Tenta salvar um novo ModuleData via serviço de BI
         '''
         try:
