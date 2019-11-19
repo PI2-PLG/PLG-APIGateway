@@ -91,6 +91,10 @@ class PostModuleData(APIView):
 
     permission_classes = (AllowAny,)
 
+    '''
+    Exemplo de string de dados
+    data = "M:Modulo-Z,P:223,T:23.24,U:24.34,L:234.2223,G:234.2223,V:23.23"
+    '''
     def post(self, request):
         print("")
         print("")
@@ -100,15 +104,21 @@ class PostModuleData(APIView):
         print("=============================================")
         print("")
         print("")
-        '''
-        Exemplo de string de dados
-        data = "M:Modulo-Z,P:223,T:23.24,U:24.34,L:234.2223,G:234.2223,V:23.23"
-        '''
-
-        data = request.data["payload"]
-        module_data = convertCentralData(data)
-        module = {"name":module_data["module"]}
         final_response = ""
+        '''
+        Tenta encontrar o payload na request
+        '''
+        try:
+            data = request.data["payload"]
+            module_data = convertCentralData(data)
+            module = {"name":module_data["module"]}
+        except:
+            final_response = {"response":"payload_not_found"}
+            return Response(final_response, status=status.HTTP_200_OK)
+
+        '''
+        Tenta encontrar ou criar um novo módulo via serviço de BI
+        '''
         try:
             newModule = Endpoint.objects.get(name="NewModule")
             aux = {"module":module}
@@ -117,6 +127,9 @@ class PostModuleData(APIView):
             final_response = {'response':'find_or_create_module_error'}
             return Response(final_response, status=status.HTTP_200_OK)
 
+        '''
+        Tenta criar um json no formato aceito por ModuleData
+        '''
         try:
             module_data_request = {}
             newData = {
@@ -133,12 +146,18 @@ class PostModuleData(APIView):
             final_response = {'response':'find_or_create_module_data_error'}
             return Response(final_response, status=status.HTTP_200_OK)
 
+        '''
+        Busca o serviço de todos os
+        '''
         try:
             endpoint = Endpoint.objects.get(name="GetAllModuleData")
         except:
             final_response = {'response':'endpoint_not_found'}
             return Response(final_response, status=status.HTTP_200_OK)
 
+        '''
+        Tenta salvar um novo ModuleData via serviço de BI
+        '''
         try:
             newModule = Endpoint.objects.get(name="NewModuleData")
             response = req.post(newModule.url, json=module_data_request)
