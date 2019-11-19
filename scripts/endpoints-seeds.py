@@ -12,6 +12,7 @@ endpoint_data = [
                  ["GetAllData","BI","http://"+localhost+":8003/all-data/"],
                  ["NewModule","BI","http://"+localhost+":8003/new-module/"],
                  ["NewModuleData","BI","http://"+localhost+":8003/new-module-data/"],
+                 ["SendingNotificationData","NOTIFICATION","http://"+localhost+":8001/notification-data/"]
                 ]
 
 print("Adicionando endpoints... ")

@@ -3,7 +3,7 @@ import requests as req
 import json
 import io
 
-def convertCentralData(payload):
+def convert_central_data(payload):
     '''
         M: => Modulo
         P: => Partículas por Milhão
@@ -40,3 +40,21 @@ def convertCentralData(payload):
             pass
 
     return module_data
+
+def send_notification():
+    final_response = ""
+    try:
+        all_data_endpoint = Endpoint.objects.get(name="GetAllData")
+        response = req.get(all_data_endpoint.url)
+        modules_and_status = []
+        for module in response.json():
+            aux = {}
+            aux["module_name"] = module["name"]
+            aux["module_status"] = module["status"]
+            modules_and_status.append(aux)
+
+        notification_endpoint = Endpoint.objects.get(name="SendingNotificationData")
+        req.post(notification_endpoint.url, json=modules_and_status)
+        print("[LOG] Sending notification data to notification service.")
+    except:
+        print("[LOG] Impossible send notification to notification service.")
