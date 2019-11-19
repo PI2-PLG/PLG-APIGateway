@@ -11,6 +11,33 @@ import requests as req
 import io
 
 
+class ModulesToMap(APIView):
+
+    permission_classes = (AllowAny,)
+
+    def get(self, request):
+        try:
+            endpoint = Endpoint.objects.get(name="GetAllData")
+        except:
+            return Response({'response':'endpoint_not_foud'}, status=status.HTTP_200_OK)
+
+        response = req.get(endpoint.url)
+        modules = response.json()
+
+        modules_list = []
+        for module in modules:
+            module_data = {
+                            "coordinate":{
+                                           "latitude": module["latitude"][-1],
+                                           "longitude": module["longitude"][-1],
+                                         },
+                            "title": module["name"],
+                            "status": module["status"],
+                            "description": f'Temperatura {module["temperature"][-1]} C°, Umidade {module["humidity"][-1]} %, Gases: {module["ppm"][-1]} ppm, Velocidade: {module["velocity"][-1]} m/s',
+                           }
+            modules_list.append(module_data)
+        return Response(modules_list, status=status.HTTP_200_OK)
+
 class GetModuleList(APIView):
 
     permission_classes = (AllowAny,)
