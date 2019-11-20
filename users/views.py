@@ -8,10 +8,13 @@ from users.serializers import CustomUserSerializer
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from django.contrib.auth import authenticate, login, logout
+from rest_framework.permissions import AllowAny
 import io
 
 
 class NewUser(APIView):
+
+    permission_classes = (AllowAny,)
 
     def post(self, request):
         try:
@@ -37,6 +40,8 @@ class NewUser(APIView):
 
 
 class UserLogin(APIView):
+
+    permission_classes = (AllowAny,)
 
     def post(self, request):
         try:
@@ -76,8 +81,7 @@ class UserLogin(APIView):
 
 class GetUserData(APIView):
 
-    # authentication_classes = [SessionAuthentication]
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def post(self, request):
         try:
@@ -89,3 +93,19 @@ class GetUserData(APIView):
         except:
             response = "{response: user_not_found}"
             return Response(response, status=status.HTTP_200_OK)
+
+class AllTokens(APIView):
+
+    permission_classes = (AllowAny,)
+
+    def get(self, request):
+
+        users = CustomUser.objects.all()
+        tokens = []
+        for user in users:
+            tokens.append(user.notification_token)
+
+        response = {}
+        response["token_list"] = tokens
+
+        return Response(response, status=status.HTTP_200_OK)

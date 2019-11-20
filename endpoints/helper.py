@@ -1,9 +1,10 @@
 from endpoints.models import Endpoint
+from users.models import CustomUser
 import requests as req
 import json
 import io
 
-def convertCentralData(payload):
+def convert_central_data(payload):
     '''
         M: => Modulo
         P: => Partículas por Milhão
@@ -40,3 +41,32 @@ def convertCentralData(payload):
             pass
 
     return module_data
+
+def send_notification(module_name):
+    print(module_name)
+    final_response = ""
+    try:
+        all_data_endpoint = Endpoint.objects.get(name="GetAllData")
+        response = req.get(all_data_endpoint.url)
+        modules_and_status = []
+        for module in response.json():
+            aux = {}
+            if(module["name"] == module_name):
+                aux["module_name"] = module["name"]
+                aux["module_status"] = module["status"]
+                modules_and_status.append(aux)
+        notification_pack = {}
+        notification_pack["modules"] = modules_and_status
+        notification_pack["notification_tokens"] = get_all_notification_tokens()
+        notification_endpoint = Endpoint.objects.get(name="SendingNotificationData")
+        req.post(notification_endpoint.url, json=notification_pack)
+        print("[LOG] Sending notification data to notification service.")
+    except:
+        print("[LOG] Impossible send notification to notification service.")
+
+def get_all_notification_tokens():
+    users = CustomUser.objects.all()
+    tokens = []
+    for user in users:
+        tokens.append(user.notification_token)
+    return tokens
