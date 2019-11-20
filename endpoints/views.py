@@ -163,6 +163,6 @@ class PostModuleData(APIView):
         '''
         Avisa para o serviço de notification os novos modulos e status
         '''
-        send_notification()
+        send_notification(module_data["module"])
 
         return Response(final_response, status=status.HTTP_200_OK)
