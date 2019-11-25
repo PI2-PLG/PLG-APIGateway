@@ -13,6 +13,7 @@ def convert_central_data(payload):
         L: => Latitude
         G: => Longitude
         V: => Velocidade
+        W: => Força do Sinal
     '''
     data = payload.split(",")
     module_data = {}
@@ -20,25 +21,20 @@ def convert_central_data(payload):
         aux_value = value.split(":")
         if(aux_value[0] == "M"):
             module_data["module"] = aux_value[1]
-            pass
         elif(aux_value[0] == "P"):
             module_data["ppm"] = aux_value[1]
-            pass
         elif(aux_value[0] == "T"):
             module_data["temperature"] = aux_value[1]
-            pass
         elif(aux_value[0] == "U"):
             module_data["humidity"] = aux_value[1]
-            pass
         elif(aux_value[0] == "L"):
             module_data["latitude"] = aux_value[1]
-            pass
         elif(aux_value[0] == "G"):
             module_data["longitude"] = aux_value[1]
-            pass
         elif(aux_value[0] == "V"):
             module_data["velocity"] = aux_value[1]
-            pass
+        elif(aux_value[0] == "W"):
+            module_data["signal_strength"] = aux_value[1]
 
     return module_data
 
