@@ -25,6 +25,7 @@ class NewUser(APIView):
             name = data['name']
             password = data['password']
             notification_token = token['notification_token']
+            print(f'======================\n[LOG] Creating a new user:\nUsername: {username}\nEmail: {email}\nNotification_Token: {notification_token}\n======================\n')
             new_user = CustomUser()
             new_user.name = name
             new_user.email = email
