@@ -61,8 +61,8 @@ def send_notification(module_name):
         print("[LOG] Impossible send notification to notification service.")
 
 def get_all_notification_tokens():
-    users = CustomUser.objects.all()
+    aux_tokens = CustomUser.objects.all().values('notification_token').distinct()
     tokens = []
-    for user in users:
-        tokens.append(user.notification_token)
+    for token in aux_tokens:
+        tokens.append(token['notification_token'])
     return tokens
