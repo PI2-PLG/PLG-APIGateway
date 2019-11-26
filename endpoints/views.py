@@ -167,3 +167,13 @@ class PostModuleData(APIView):
         send_notification(module_data["module"])
 
         return Response(final_response, status=status.HTTP_200_OK)
+
+class AllNotifications(APIView):
+
+    def get(self, request):
+        try:
+            endpoint = Endpoint.objects.get(name="AllNotificationData")
+            response = req.get(endpoint.url)
+            return Response(response.json(), status=status.HTTP_200_OK)
+        except:
+            return Response({'response':'endpoint_not_found'}, status=status.HTTP_200_OK)

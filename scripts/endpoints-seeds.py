@@ -5,14 +5,15 @@ from endpoints.models import Endpoint
 No lugar de "localhost" você deve colocar o ip local da sua máquina :)
 
 '''
-localhost = "192.168.15.9"
+localhost = "http://loboguara.eastus.cloudapp.azure.com"
 endpoint_data = [
                  ["GetAllModuleData","BI","http://"+localhost+":8003/all-module-data/"],
                  ["GetAllModuleList","BI","http://"+localhost+":8003/all-modules-list/"],
                  ["GetAllData","BI","http://"+localhost+":8003/all-data/"],
                  ["NewModule","BI","http://"+localhost+":8003/new-module/"],
                  ["NewModuleData","BI","http://"+localhost+":8003/new-module-data/"],
-                 ["SendingNotificationData","NOTIFICATION","http://"+localhost+":8001/notification-data/"]
+                 ["SendingNotificationData","NOTIFICATION","http://"+localhost+":8001/notification-data/"],
+                 ["AllNotificationData","NOTIFICATION","http://"+localhost+":8001/all-notifications/"]
                 ]
 
 print("Adicionando endpoints... ")
