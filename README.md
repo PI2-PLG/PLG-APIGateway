@@ -98,3 +98,11 @@ curl -d '{"module":{"name":"Modulo-FGA-A"}}' -H "Content-Type: application/json"
 curl -X GET http://localhost:8000/modules-map/
 
 ```
+
+* Requisição de todas as notificações:
+
+```
+
+curl -X GET http://localhost:8000/all-notifications/
+
+```
