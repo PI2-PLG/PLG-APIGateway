@@ -62,7 +62,7 @@ sudo docker-compose exec -T web python manage.py shell < ./scripts/endpoints-see
 
 ```
 
-curl -d '{"payload":"M:Modulo-Z,P:223,T:23.24,U:24.34,L:234.2223,G:234.2223,V:23.23"}' -H "Content-Type: application/json" -X POST http://localhost:8000/new-module-data/
+curl -d '{"payload":"M:Modulo-LG,P:223,T:23.24,U:24.34,L:112.00,G:223.00,V:10,W:25"}' -H "Content-Type: application/json" -X POST http://localhost:8000/new-module-data
 
 
 ```
