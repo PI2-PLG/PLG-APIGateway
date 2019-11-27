@@ -39,7 +39,6 @@ def convert_central_data(payload):
     return module_data
 
 def send_notification(module_name):
-    print(module_name)
     final_response = ""
     try:
         all_data_endpoint = Endpoint.objects.get(name="GetAllData")

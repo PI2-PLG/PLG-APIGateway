@@ -33,7 +33,7 @@ class ModulesToMap(APIView):
                                          },
                             "title": module["name"],
                             "status": module["status"],
-                            "description": f'Temperatura {module["temperature"][-1]} C°, Umidade {module["humidity"][-1]} %, Gases: {module["ppm"][-1]} ppm, Velocidade: {module["velocity"][-1]} m/s, Força do Sinal: {module["signal_strength"][-1]}',
+                            "description": f'Temperatura {module["temperature"][0]} C°, Umidade {module["humidity"][0]} %, Gases: {module["ppm"][0]} ppm, Velocidade: {module["velocity"][-1]} m/s',
                            }
             modules_list.append(module_data)
         return Response(modules_list, status=status.HTTP_200_OK)
@@ -99,7 +99,7 @@ class PostModuleData(APIView):
         print("")
         print("")
         print("=============================================")
-        print("REQUEST:")
+        print("REQUEST STRING:")
         print(request.data)
         print("=============================================")
         print("")
