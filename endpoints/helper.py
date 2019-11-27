@@ -49,6 +49,9 @@ def send_notification(module_name):
             if(module["name"] == module_name):
                 aux["module_name"] = module["name"]
                 aux["module_status"] = module["status"]
+                aux["temperature"] = module["temperature"][-1]
+                aux["humidity"] = module["humidity"][-1]
+                aux["velocity"] = module["velocity"][-1]
                 modules_and_status.append(aux)
         notification_pack = {}
         notification_pack["modules"] = modules_and_status
