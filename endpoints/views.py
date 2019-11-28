@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
 from endpoints.models import Endpoint
-from endpoints.helper import convert_central_data, send_notification
+from endpoints.helper import convert_central_data, send_notification, temp_med
 from rest_framework.permissions import AllowAny
 import json
 import requests as req
@@ -212,20 +212,23 @@ class AllCharts(APIView):
             all_chart_values.append(aux)
 
 
+        aux = {}
+        aux["module_name"] = "Media"
+        aux["type"] = "line_chart"
+        aux["title"] = f'Temperatura Media x Módulo'
+        data = {}
+        data["labels"] = []
+        aux_values = []
+        dataset_json = {}
+        dataset_json["data"] = []
         for module in modules:
-            aux = {}
-            aux["module_name"] = module["name"]
-            aux["type"] = "line_chart"
-            aux["title"] = f'{module["name"]} - Temperatura x Dias'
-            data = {}
-            data["labels"] = ["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"]
-            aux_values = []
-            dataset_json = {}
-            dataset_json["data"] = []
-            aux_values.append(dataset_json)
-            data["datasets"] = aux_values
-            aux["data"] = data
-            all_chart_values.append(aux)
+            data["labels"].append(module["name"])
+            dataset_json["data"].append(temp_med(module))
+        aux_values.append(dataset_json)
+        data["datasets"] = aux_values
+        aux["data"] = data
+        all_chart_values.append(aux)
 
 
         return Response(all_chart_values,status=status.HTTP_200_OK)
+        # return Response(response.json(),status=status.HTTP_200_OK)

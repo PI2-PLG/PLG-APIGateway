@@ -68,3 +68,13 @@ def get_all_notification_tokens():
     for user in users:
         tokens.append(user["notification_token"])
     return tokens
+
+def temp_med(module):
+    values = 0
+    index = 0
+    for temp in module["temperature"]:
+        values += temp
+        index +=1
+
+    med = values/index
+    return round(med, 2)
