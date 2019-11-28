@@ -4,7 +4,7 @@ import random
 import json
 import io
 
-quantity_of_collects = 5
+quantity_of_collects = 10
 interval = 5
 localhost = "loboguara.eastus.cloudapp.azure.com"
 
