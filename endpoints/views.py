@@ -295,4 +295,26 @@ class AllCharts(APIView):
 
         all_chart_values.append(f_aux)
         return Response(all_chart_values,status=status.HTTP_200_OK)
-        # return Response(response.json(),status=status.HTTP_200_OK)
+
+class ModulesCount(APIView):
+
+    def get(self, request):
+        try:
+            endpoint = Endpoint.objects.get(name="GetAllData")
+        except:
+            return Response({'response':'endpoint_not_foud'}, status=status.HTTP_200_OK)
+        try:
+            response = req.get(endpoint.url)
+        except:
+            return Response({'response': 'no_reply'}, status=status.HTTP_200_OK)
+
+        modules = response.json()
+
+        index = 0
+        for module in modules:
+            index += 1
+
+        qtd = {}
+        qtd["modules_count"] = index
+
+        return Response(qtd, status=status.HTTP_200_OK)
