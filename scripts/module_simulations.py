@@ -6,7 +6,7 @@ import io
 
 quantity_of_collects = 5
 interval = 2
-localhost = "192.168.15.9"
+localhost = "164.41.91.132"
 
 print(f'Simulando {quantity_of_collects} entradas de dados com intervalo de {interval} segundos entre elas')
 for collect in range(1,quantity_of_collects):
