@@ -179,7 +179,7 @@ class AllNotifications(APIView):
         except:
             return Response({'response':'endpoint_not_found'}, status=status.HTTP_200_OK)
 
-class BarChart(APIView):
+class AllCharts(APIView):
 
     def get(self, request):
         try:
@@ -188,7 +188,44 @@ class BarChart(APIView):
             return Response({'response':'endpoint_not_foud'}, status=status.HTTP_200_OK)
         try:
             response = req.get(endpoint.url)
-            return Response(response.json(), status=status.HTTP_200_OK)
         except:
             return Response({'response': 'no_reply'}, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_200_OK)
+
+        modules = response.json()
+
+        all_chart_values = []
+        for module in modules:
+            aux = {}
+            aux["module_name"] = module["name"]
+            aux["type"] = "bar_chart"
+            aux["title"] = f"{module['name']} - Temperatura x Humidade x PPM"
+
+            data = []
+            temperatura = {"info":"Temperatura °", "value": module["temperature"][-1]}
+            umidade = {"info":"Umidade %", "value": module["humidity"][-1]}
+            ppm = {"info":"PPM ", "value": module["ppm"][-1]}
+            data.append(temperatura)
+            data.append(umidade)
+            data.append(ppm)
+
+            aux["data"] = data
+            all_chart_values.append(aux)
+
+
+        for module in modules:
+            aux = {}
+            aux["module_name"] = module["name"]
+            aux["type"] = "line_chart"
+            aux["title"] = f'{module["name"]} - Temperatura x Dias'
+            data = {}
+            data["labels"] = ["Seg","Ter","Qua","Qui","Sex","Sáb","Dom"]
+            aux_values = []
+            dataset_json = {}
+            dataset_json["data"] = []
+            aux_values.append(dataset_json)
+            data["datasets"] = aux_values
+            aux["data"] = data
+            all_chart_values.append(aux)
+
+
+        return Response(all_chart_values,status=status.HTTP_200_OK)
