@@ -211,7 +211,7 @@ class AllCharts(APIView):
             aux["data"] = data
             all_chart_values.append(aux)
 
-
+        modules_names = []
         aux = {}
         aux["module_name"] = "Media"
         aux["type"] = "line_chart"
@@ -223,6 +223,7 @@ class AllCharts(APIView):
         dataset_json["data"] = []
         for module in modules:
             data["labels"].append(module["name"])
+            modules_names.append(module["name"])
             dataset_json["data"].append(temp_med(module))
         aux_values.append(dataset_json)
         data["datasets"] = aux_values
@@ -230,5 +231,68 @@ class AllCharts(APIView):
         all_chart_values.append(aux)
 
 
+        try:
+            endpoint = Endpoint.objects.get(name="AllNotificationData")
+            notifications = req.get(endpoint.url)
+            notifications = notifications.json()
+            # return Response(response.json(), status=status.HTTP_200_OK)
+        except:
+            return Response({'response':'endpoint_not_found'}, status=status.HTTP_200_OK)
+
+
+        mod_not = []
+        for module in modules_names:
+            aux = {}
+            qtd_alert = 0
+            qtd_off = 0
+            qtd_motion = 0
+            for notification in notifications:
+                if(notification["type"] == "alert" and notification["module_name"] == module):
+                    qtd_alert += 1
+                elif(notification["type"] == "off" and notification["module_name"] == module):
+                    qtd_off += 1
+                elif(notification["type"] == "inmotion" and notification["module_name"] == module):
+                    qtd_motion += 1
+            aux["module"] = module
+            aux["alert"] = qtd_alert
+            aux["off"] = qtd_off
+            aux["inmotion"] = qtd_motion
+            mod_not.append(aux)
+
+        f_aux = []
+        for value in mod_not:
+            pie_chart = {}
+            pie_chart["module_name"] = value["module"]
+            pie_chart["type"] = "pie_chart"
+            pie_chart["title"] = f"{value['module']}- Porcentagem x Status"
+            data = []
+            alerta = {
+                "name": "Alerta",
+                "population": value["alert"],
+                "color": "#a9eec2",
+                "legendFontColor": "#7f7f7f",
+                "legendFontSize": 10
+            }
+            data.append(alerta)
+            off = {
+                "name": "Offline",
+                "population": value["off"],
+                "color": "#fad284",
+                "legendFontColor": "#7f7f7f",
+                "legendFontSize": 10
+            }
+            data.append(off)
+            movimento = {
+                "name": "Em movimento",
+                "population": value["inmotion"],
+                "color": "#f38181",
+                "legendFontColor": "#7f7f7f",
+                "legendFontSize": 10
+            }
+            data.append(movimento)
+            pie_chart["data"] = data
+            f_aux.append(pie_chart)
+
+        all_chart_values.append(f_aux)
         return Response(all_chart_values,status=status.HTTP_200_OK)
         # return Response(response.json(),status=status.HTTP_200_OK)
