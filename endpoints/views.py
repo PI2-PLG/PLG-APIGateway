@@ -222,7 +222,9 @@ class AllCharts(APIView):
         dataset_json = {}
         dataset_json["data"] = []
         for module in modules:
-            data["labels"].append(module["name"])
+            aux_name = module["name"].split("-")
+            new_name = aux_name[0][0]+"-"+aux_name[1]
+            data["labels"].append(new_name)
             modules_names.append(module["name"])
             dataset_json["data"].append(temp_med(module))
         aux_values.append(dataset_json)
@@ -291,9 +293,8 @@ class AllCharts(APIView):
             }
             data.append(movimento)
             pie_chart["data"] = data
-            f_aux.append(pie_chart)
+            all_chart_values.append(pie_chart)
 
-        all_chart_values.append(f_aux)
         return Response(all_chart_values,status=status.HTTP_200_OK)
 
 class ModulesCount(APIView):
