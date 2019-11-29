@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import JsonResponse
 from endpoints.models import Endpoint
-from endpoints.helper import convert_central_data, send_notification, temp_med
+from endpoints.helper import convert_central_data, send_notification, temp_med, ppm_med, hum_med
 from rest_framework.permissions import AllowAny
 import json
 import requests as req
@@ -215,7 +215,7 @@ class AllCharts(APIView):
         aux = {}
         aux["module_name"] = "Media"
         aux["type"] = "line_chart"
-        aux["title"] = f'Temperatura Media x Módulo'
+        aux["title"] = f'Temperatura Média x Módulo'
         data = {}
         data["labels"] = []
         aux_values = []
@@ -232,6 +232,47 @@ class AllCharts(APIView):
         aux["data"] = data
         all_chart_values.append(aux)
 
+        modules_names = []
+        aux = {}
+        aux["module_name"] = "Media"
+        aux["type"] = "line_chart"
+        aux["title"] = f'Umidade Média x Módulo'
+        data = {}
+        data["labels"] = []
+        aux_values = []
+        dataset_json = {}
+        dataset_json["data"] = []
+        for module in modules:
+            aux_name = module["name"].split("-")
+            new_name = aux_name[0][0]+"-"+aux_name[1]
+            data["labels"].append(new_name)
+            modules_names.append(module["name"])
+            dataset_json["data"].append(hum_med(module))
+        aux_values.append(dataset_json)
+        data["datasets"] = aux_values
+        aux["data"] = data
+        all_chart_values.append(aux)
+
+        modules_names = []
+        aux = {}
+        aux["module_name"] = "Media"
+        aux["type"] = "line_chart"
+        aux["title"] = f'PPM Médio x Módulo'
+        data = {}
+        data["labels"] = []
+        aux_values = []
+        dataset_json = {}
+        dataset_json["data"] = []
+        for module in modules:
+            aux_name = module["name"].split("-")
+            new_name = aux_name[0][0]+"-"+aux_name[1]
+            data["labels"].append(new_name)
+            modules_names.append(module["name"])
+            dataset_json["data"].append(ppm_med(module))
+        aux_values.append(dataset_json)
+        data["datasets"] = aux_values
+        aux["data"] = data
+        all_chart_values.append(aux)
 
         try:
             endpoint = Endpoint.objects.get(name="AllNotificationData")

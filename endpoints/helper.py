@@ -78,3 +78,23 @@ def temp_med(module):
 
     med = values/index
     return round(med, 2)
+
+def hum_med(module):
+    values = 0
+    index = 0
+    for temp in module["humidity"]:
+        values += temp
+        index +=1
+
+    med = values/index
+    return round(med, 2)
+
+def ppm_med(module):
+    values = 0
+    index = 0
+    for temp in module["ppm"]:
+        values += temp
+        index +=1
+
+    med = values/index
+    return round(med, 2)
