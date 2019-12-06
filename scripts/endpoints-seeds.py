@@ -5,7 +5,7 @@ from endpoints.models import Endpoint
 No lugar de "localhost" você deve colocar o ip local da sua máquina :)
 
 '''
-localhost = "192.168.15.9"
+localhost = "loboguara.eastus.cloudapp.azure.com"
 endpoint_data = [
                  ["GetAllModuleData","BI","http://"+localhost+":8003/all-module-data/"],
                  ["GetAllModuleList","BI","http://"+localhost+":8003/all-modules-list/"],
