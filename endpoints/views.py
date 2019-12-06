@@ -198,7 +198,7 @@ class AllCharts(APIView):
             aux = {}
             aux["module_name"] = module["name"]
             aux["type"] = "bar_chart"
-            aux["title"] = f"{module['name']} - Temperatura x Humidade x PPM"
+            aux["title"] = f"{module['name']} - Temperatura x Umidade x PPM"
 
             data = []
             temperatura = {"info":"Temperatura °", "value": module["temperature"][-1]}
